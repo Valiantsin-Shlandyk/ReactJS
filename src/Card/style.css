@@ -1,0 +1,22 @@
+.card {
+    margin: 20px 15px;
+    padding-left: 5px;
+    padding-right: 5px;
+    border: 4px solid #25b618;
+    width: 130px;
+    color: #25b618;
+}
+
+.card-header {
+    padding-top: 3px;
+    padding-bottom: 5px;
+    padding-left: 4px;
+    border-bottom: 1px solid #000000;
+    font-weight: 600;
+}
+
+.card-text {
+    padding-left: 4px;
+    margin-top: 10px;
+    margin-bottom: 30px;
+}
