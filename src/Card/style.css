@@ -22,9 +22,12 @@
     padding-bottom: 5px;
     padding-left: 4px;
     border-bottom: 1px solid #000000;
-    font-weight: 600;
     display: flex;
     justify-content: space-between;
+}
+
+.card-header-text {
+    font-weight: 600;
 }
 
 .card-text {

@@ -1,9 +1,9 @@
 import React from 'react';
 import './style.css';
 
-const card = ({caption, text, onChange, class_Name}) => {
+const card = ({caption, text, onChange, checked}) => {
   return (
-    <div className={class_Name}>
+    <div className={checked ? 'card-new-style' : 'card'}>
         <div className='card-header'>
           <div className='card-header-text'>{caption}</div>
           <input type='checkbox' onChange={onChange} />
