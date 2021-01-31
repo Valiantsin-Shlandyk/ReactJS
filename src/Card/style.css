@@ -92,4 +92,5 @@ input[type='checkbox'] {
 
 .active {
     color: #49a9e08e;
+    border-bottom: 1px solid #49a9e08e;
 }
