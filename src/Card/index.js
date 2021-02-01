@@ -1,16 +1,107 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './style.css';
+import { BiEdit } from 'react-icons/bi';
+import { AiOutlineSave } from 'react-icons/ai';
+import { ImCancelCircle } from 'react-icons/im'
 
-const card = ({caption, text, onChange, checked}) => {
-  return (
-    <div className={checked ? 'card-new-style' : 'card'}>
-        <div className='card-header'>
-          <div className='card-header-text'>{caption}</div>
-          <input type='checkbox' onChange={onChange} />
+const Card = props => {
+  const [cardState, setCardState] = useState({
+    checked: false,
+    isEditable: false,
+    data: {
+      headerData: props.headerData,
+      bodyData: props.bodyData
+    },
+    tempData: {
+      headerData: props.headerData,
+      bodyData: props.bodyData
+    }
+  });
+
+  const changeStyleHandler = () => {
+    setCardState({
+      ...cardState,
+      checked: !cardState.checked
+    })
+  };
+
+  const openEditModeHandler = () => {
+    setCardState({
+      ...cardState,
+      isEditable: !cardState.isEditable,
+      checked: false
+    })
+  };
+
+  const cardDataChangeHandler = (event, prop) => {
+    setCardState({
+      ...cardState,
+      tempData: {
+        ...cardState.tempData,
+        [prop]: event.target.value
+      }
+    })
+  };
+
+  const saveChangesHandler = () => {
+    setCardState({
+      ...cardState,
+      isEditable: false,
+      data: {
+        ...cardState.tempData
+      }
+    })
+  };
+
+  const cancelChangesHandler = () => {
+    setCardState({
+      ...cardState,
+      isEditable: false,
+      tempData: {
+        ...cardState.data
+      }
+    })
+  };
+
+  const renderEditMode = () => {
+    return (
+      <div className='header-edit-mode-buttons' >
+          <AiOutlineSave className='save-button' onClick={saveChangesHandler}/>
+          <ImCancelCircle className='cancel-button' onClick={cancelChangesHandler}/>
+       </div>
+      )
+  };
+
+  const renderReadMode = () => {
+    return (
+        <div className='header-default-buttons'>
+          <BiEdit className='edit-button' onClick={openEditModeHandler}/>
+          <input type='checkbox' onChange={changeStyleHandler} />
         </div>
-        <p className='card-text'>{text}</p>
+      )
+  };
+
+  return (
+    <div className={cardState.checked ? 'card active-status' : 'card'}>
+        <div className={cardState.checked ? 'card-header active' : 'card-header'}>
+          <input type="text"
+            className='card-header-text' 
+            readOnly={!cardState.isEditable}
+            value={cardState.tempData.headerData}
+            onChange={event => cardDataChangeHandler(event, 'headerData')}
+          />
+          <div className='header-buttons'>
+            {cardState.isEditable ? renderEditMode() : renderReadMode()}
+          </div>
+        </div>
+        <textarea 
+          className={cardState.checked ? 'card-body active' : 'card-body'}
+          value={cardState.tempData.bodyData}
+          readOnly={!cardState.isEditable}
+          onChange={event => cardDataChangeHandler(event, 'bodyData')}
+        />
     </div>
   )
 }
 
-export default card;
+export default Card;
