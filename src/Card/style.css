@@ -7,7 +7,7 @@
     border: 4px solid #25b618;
     width: 180px;
     height: 160px;
-    color: #25b618;
+    color: #27bb19;
 }
 
 .active-status {
@@ -81,7 +81,6 @@ input[type='checkbox'] {
     width: 170px;
     height: 90px;
     margin-top: 10px;
-    margin-bottom: 60px;
     padding-left: 4px;
     border: none;
     outline: none;
