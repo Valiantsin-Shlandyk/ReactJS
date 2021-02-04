@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect }from 'react';
 import './style.css';
 import { BiEdit } from 'react-icons/bi';
 import { AiOutlineSave } from 'react-icons/ai';
@@ -9,8 +9,8 @@ const Card = props => {
     checked: false,
     isEditable: false,
     data: {
-      headerData: props.headerData,
-      bodyData: props.bodyData
+      headerData: '',
+      bodyData: ''
     },
     tempData: {
       headerData: props.headerData,
@@ -29,7 +29,10 @@ const Card = props => {
     setCardState({
       ...cardState,
       isEditable: !cardState.isEditable,
-      checked: false
+      checked: false,
+      data: {
+        ...cardState.tempData
+      }
     })
   };
 
@@ -50,7 +53,8 @@ const Card = props => {
       data: {
         ...cardState.tempData
       }
-    })
+    });
+    props.onSave(props.id, cardState.tempData);
   };
 
   const cancelChangesHandler = () => {
@@ -63,29 +67,34 @@ const Card = props => {
     })
   };
 
+  useEffect(() => {
+    cardState.isEditable && cancelChangesHandler();
+
+  // eslint-disable-next-line
+  }, [props.readMode]);
+
   const renderEditMode = () => {
     return (
-      <div className='header-edit-mode-buttons' >
-          <AiOutlineSave className='save-button' onClick={saveChangesHandler}/>
-          <ImCancelCircle className='cancel-button' onClick={cancelChangesHandler}/>
-       </div>
-      )
+      <div className='header-edit-mode-buttons'>
+        <AiOutlineSave className='save-button' onClick={saveChangesHandler}/>
+        <ImCancelCircle className='cancel-button' onClick={cancelChangesHandler}/>
+      </div>
+    )
   };
 
   const renderReadMode = () => {
     return (
-        <div className='header-default-buttons'>
-          <BiEdit className='edit-button' onClick={openEditModeHandler}/>
-          <input type='checkbox' onChange={changeStyleHandler} />
-        </div>
-      )
+      <div className='header-default-buttons'>
+        {props.readMode ? null : <BiEdit className='edit-button' onClick={openEditModeHandler}/>}
+        <input type='checkbox' onChange={changeStyleHandler}/>
+      </div>
+    )
   };
-
   return (
     <div className={cardState.checked ? 'card active-status' : 'card'}>
         <div className={cardState.checked ? 'card-header active' : 'card-header'}>
           <input type="text"
-            className='card-header-text' 
+            className='card-header-text'
             readOnly={!cardState.isEditable}
             value={cardState.tempData.headerData}
             onChange={event => cardDataChangeHandler(event, 'headerData')}
