@@ -53,7 +53,8 @@ const Card = props => {
       data: {
         ...cardState.tempData
       }
-    })
+    });
+    props.onSave(props.id, cardState.tempData);
   };
 
   const cancelChangesHandler = () => {
@@ -68,6 +69,8 @@ const Card = props => {
 
   useEffect(() => {
     cardState.isEditable && cancelChangesHandler();
+
+  // eslint-disable-next-line
   }, [props.readMode]);
 
   const renderEditMode = () => {
@@ -81,12 +84,8 @@ const Card = props => {
 
   const renderReadMode = () => {
     return (
-      props.readMode ?
       <div className='header-default-buttons'>
-        <input type='checkbox' onChange={changeStyleHandler}/>
-      </div> :
-      <div className='header-default-buttons'>
-        <BiEdit className='edit-button' onClick={openEditModeHandler}/>
+        {props.readMode ? null : <BiEdit className='edit-button' onClick={openEditModeHandler}/>}
         <input type='checkbox' onChange={changeStyleHandler}/>
       </div>
     )
