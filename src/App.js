@@ -1,6 +1,20 @@
 import Header from './Header';
 import Card from './Card';
 import { useState } from 'react';
+import styled from 'styled-components';
+
+const StyledDiv = styled.div`
+  display: flex;
+  align-items: center;
+  background-color: ${props => props.state ? '#25b618' : '#f3670a'};
+  width: 110px;
+  height: 30px;
+  margin-left: 25px;
+  margin-top: 5px;
+  border-radius: 10px;
+  padding-left: 5px;
+  color: #fff;
+`;
 
 function App() {
   const [appState, setAppState] = useState({
@@ -16,7 +30,7 @@ function App() {
     ],
     readMode: false
   })
-  
+
   const readModeHandler = () => {
     setAppState({
       ...appState,
@@ -47,23 +61,15 @@ function App() {
     });
   }
 
-  const layoutReadModeBtn = {
-    position: 'absolute',
-    display: 'flex',
-    alignItems: 'center',
-    marginLeft: '30px',
-    top: '-25px'
-  }
-
   return (
     <div className="App">
       <Header />
-      <div className='container' style={{'position': 'relative'}}>
-        <div className='toggleReadMode' style={layoutReadModeBtn}>
-         <input type="checkbox" onChange={readModeHandler}/>
-         <p style={{color: '#25b618', marginLeft: '10px'}}>Only view</p>
-        </div>
-        <div className='cards' style={{'marginTop':' 10px'}}>
+      <div className='container'>
+        <StyledDiv state={appState.readMode}>
+         <input type="checkbox" onChange={readModeHandler} id='toggle_view'/>
+         <label htmlFor='toggle_view' style={{paddingLeft: '5px'}}>Only view</label>
+        </StyledDiv>
+        <div className='cards'>
           {renderCards()}
         </div>
       </div>
