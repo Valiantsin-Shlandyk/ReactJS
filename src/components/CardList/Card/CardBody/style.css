@@ -1,0 +1,16 @@
+.card-body {
+    width: 170px;
+    height: 90px;
+    margin-top: 10px;
+    padding-left: 4px;
+    border: none;
+    outline: none;
+    color: #25b618;
+    resize:none;
+    font-size: inherit;
+}
+
+.active {
+    color: #49a9e08e;
+    border-bottom: 1px solid #49a9e08e;
+}
