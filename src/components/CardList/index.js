@@ -2,12 +2,10 @@ import React from 'react';
 import Card from '../CardList/Card';
 
 const Cards = props => props.cards.map(card => {
-    return <Card 
-              headerData={card.headerData} 
-              bodyData={card.bodyData} 
-              viewMode={props.viewMode}
+    return <Card
               key={card.id}
-              id={card.id}
+              cardData={card}
+              viewMode={props.viewMode}
               onSave={props.onSave}
               onChange={props.onChange}
             />

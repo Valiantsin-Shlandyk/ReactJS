@@ -7,6 +7,7 @@ import Header from './CardHeader';
 import CardBody from './CardBody';
 
 const Card = props => {
+  const {headerData, bodyData, id} = props.cardData;
   const [cardState, setCardState] = useState({
     checked: false,
     isEditable: false,
@@ -15,8 +16,8 @@ const Card = props => {
       bodyData: ''
     },
     tempData: {
-      headerData: props.headerData,
-      bodyData: props.bodyData
+      headerData: headerData,
+      bodyData: bodyData
     }
   });
 
@@ -25,7 +26,7 @@ const Card = props => {
       ...cardState,
       checked: !cardState.checked
     });
-    props.onChange(props.id, !cardState.checked);
+    props.onChange(id, !cardState.checked);
   };
 
   const openEditModeHandler = () => {
@@ -57,7 +58,7 @@ const Card = props => {
         ...cardState.tempData
       }
     });
-    props.onSave(props.id, cardState.tempData);
+    props.onSave(id, cardState.tempData);
   };
 
   const cancelChangesHandler = () => {
