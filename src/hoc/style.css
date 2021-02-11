@@ -1,0 +1,9 @@
+.spinnerLayot {
+    box-sizing: border-box;
+    width: 180px;
+    height: 160px;
+    display: inline-block;
+    margin: 20px 12px;
+    padding-left: 90px;
+    padding-top: 50px;
+}
