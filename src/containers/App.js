@@ -2,6 +2,7 @@ import { useState } from 'react';
 import Cards from '../components/CardList'
 import Cockpit from '../components/Cockpit';
 import Header from '../components/Header';
+import { v4 as uuidv4 } from 'uuid';
 
 function App() {
   const [appState, setAppState] = useState({
@@ -51,13 +52,21 @@ function App() {
     setAppState({...appState, cards})
   };
 
+  const addNewCardHandler = () => {
+    const cards = [...appState.cards];
+    const newCard = {headerData: '', bodyData: '', id: uuidv4()};
+    cards.push(newCard);
+    setAppState({...appState, cards});
+  }
+
   return (
     <div className="App">
       <Header header='Header'/>
       <Cockpit 
-        onClick={deleteCardsHandler}
+        onDelete={deleteCardsHandler}
         onChange={viewModeHandler}
         viewMode={appState.viewMode}
+        onAdd={addNewCardHandler}
       />
       <Cards 
         cards={appState.cards}

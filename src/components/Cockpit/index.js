@@ -7,7 +7,7 @@ const ButtonsLayout = styled.div`
   justify-content: space-between;
   margin-left: 15px;
   margin-top: 10px;
-  width: 210px;
+  width: 350px;
 `;
 
 const Containter = styled.div`
@@ -15,7 +15,7 @@ const Containter = styled.div`
   width: 100px;
   align-items: center;
   border-right: 1px solid #eee;
-  color: ${props => props.state ? '#21ca11' : '#fd1e00ce'}
+  color: ${props => props.state ? '#21ca11' : '#fd1e00ce'};
 `;
 
 const StyledInput = styled.input`
@@ -63,7 +63,7 @@ const StyledLabel = styled.label`
 `;
 
 const DeleteButton = styled.button `
-  margin-right: 20px;
+  margin-left: 5px;
   border: none;
   height: 30px;
   width: 70px;
@@ -80,7 +80,26 @@ const DeleteButton = styled.button `
   }
 `;
 
-const Cockpit = (props) => {
+const AddButton = styled.button`
+  margin-left: 5px;
+  border: none;
+  height: 30px;
+  width: 70px;
+  outline: none;
+  cursor: pointer;
+  background-color: rgba(2, 171, 94, 0.7);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, .2);
+  border-radius: 5px;
+  font-weight: 600;
+  transition: .3s;
+  color: #fff;
+  &:hover {
+    transform: scale(1.1);
+  }
+`;
+
+
+const Cockpit = props => {
     return (
       <React.Fragment>
         <ButtonsLayout>
@@ -88,7 +107,12 @@ const Cockpit = (props) => {
             <StyledLabel htmlFor="view_toggle" >View mode</StyledLabel>
             <StyledInput type='checkbox' id='view_toggle' onChange={props.onChange} />
           </Containter>
-          <DeleteButton onClick={props.onClick}>Delete</DeleteButton>
+          <Containter>
+           <DeleteButton onClick={props.onDelete}>Delete</DeleteButton>
+          </Containter>
+          <Containter>
+           <AddButton onClick={props.onAdd}>Add card</AddButton>
+          </Containter>
         </ButtonsLayout>
       </React.Fragment>
     );
