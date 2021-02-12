@@ -3,8 +3,9 @@ import './style.css';
 import { BiEdit } from 'react-icons/bi';
 import { AiOutlineSave } from 'react-icons/ai';
 import { ImCancelCircle } from 'react-icons/im'
-import Header from './CardHeader';
+import CardHeader from './CardHeader';
 import CardBody from './CardBody';
+import withLoadingDelay from '../../../hoc/withLoadingDelay';
 
 const Card = props => {
   const {headerData, bodyData, id} = props.cardData;
@@ -97,7 +98,7 @@ const Card = props => {
 
   return (
     <div className={cardState.checked ? 'card active-status' : 'card'}>
-        <Header 
+        <CardHeader 
           checked={cardState.checked}
           isEditable={cardState.isEditable}
           headerData={cardState.tempData.headerData}
@@ -115,4 +116,4 @@ const Card = props => {
   );
 };
 
-export default Card;
+export default withLoadingDelay(Card);
