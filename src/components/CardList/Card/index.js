@@ -1,4 +1,4 @@
-import React, { useState, useEffect }from 'react';
+import React, { useState, useEffect, useContext }from 'react';
 import './style.css';
 import { BiEdit } from 'react-icons/bi';
 import { AiOutlineSave } from 'react-icons/ai';
@@ -6,9 +6,13 @@ import { ImCancelCircle } from 'react-icons/im'
 import CardHeader from './CardHeader';
 import CardBody from './CardBody';
 import withLoadingDelay from '../../../hoc/withLoadingDelay';
+import PropTypes from 'prop-types';
+import { CardContext } from '../../../context/card-context';
 
 const Card = props => {
+  const {onCheck, onSave} = useContext(CardContext);
   const {headerData, bodyData, id} = props.cardData;
+  
   const [cardState, setCardState] = useState({
     checked: false,
     isEditable: false,
@@ -27,7 +31,7 @@ const Card = props => {
       ...cardState,
       checked: !cardState.checked
     });
-    props.onChange(id, !cardState.checked);
+    onCheck(id, !cardState.checked);
   };
 
   const openEditModeHandler = () => {
@@ -59,7 +63,7 @@ const Card = props => {
         ...cardState.tempData
       }
     });
-    props.onSave(id, cardState.tempData);
+    onSave(id, cardState.tempData);
   };
 
   const cancelChangesHandler = () => {
@@ -115,5 +119,12 @@ const Card = props => {
     </div>
   );
 };
+
+Card.propTypes = {
+  cardData: PropTypes.object,
+  onChange: PropTypes.func,
+  onSave: PropTypes.func,
+  viewMode: PropTypes.bool
+}
 
 export default withLoadingDelay(Card);

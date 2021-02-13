@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import styled from 'styled-components';
+import {CardContext} from '../../context/card-context';
 
 const ButtonsLayout = styled.div`
   display: flex;
@@ -100,6 +101,7 @@ const AddButton = styled.button`
 
 
 const Cockpit = props => {
+    const {onDelete, onAdd} = useContext(CardContext);
     return (
       <React.Fragment>
         <ButtonsLayout>
@@ -108,10 +110,10 @@ const Cockpit = props => {
             <StyledInput type='checkbox' id='view_toggle' onChange={props.onChange} />
           </Containter>
           <Containter>
-           <DeleteButton onClick={props.onDelete}>Delete</DeleteButton>
+           <DeleteButton onClick={onDelete}>Delete</DeleteButton>
           </Containter>
           <Containter>
-           <AddButton onClick={props.onAdd}>Add card</AddButton>
+           <AddButton onClick={onAdd}>Add card</AddButton>
           </Containter>
         </ButtonsLayout>
       </React.Fragment>
