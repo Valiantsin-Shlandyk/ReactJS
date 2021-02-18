@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { v4 as uuidv4 } from 'uuid';
+import axios from 'axios';
 
 export const CardContext = React.createContext({
   cards: [],
@@ -11,16 +12,20 @@ export const CardContext = React.createContext({
 });
 
 const CardContextProvider = props => {
-  const [cards, setCards] = useState([
-    {headerData: 'Caption 1', bodyData: 'text 1', id: 1},
-    {headerData: 'Caption 2', bodyData: 'text 2', id: 2},
-    {headerData: 'Caption 3', bodyData: 'text 3', id: 3},
-    {headerData: 'Caption 4', bodyData: 'text 4', id: 4},
-    {headerData: 'Caption 5', bodyData: 'text 5', id: 5},
-    {headerData: 'Caption 6', bodyData: 'text 6', id: 6},
-    {headerData: 'Caption 7', bodyData: 'text 7', id: 7},
-    {headerData: 'Caption 8', bodyData: 'text 8', id: 8}
-  ]);
+  const [cards, setCards] = useState([]);
+
+  useEffect(() => {
+    axios.get('https://raw.githubusercontent.com/BrunnerLivio/PokemonDataGraber/master/output.json')
+         .then(response => {
+           setCards(response.data.slice(0, 15)
+             .map(item => ({
+              headerData: item.Name,
+              bodyData: item.About,
+              id: item.Number
+           })));
+         })
+         .catch(error => console.log(error));
+  }, []);
 
   const saveChangesHandler = (id, tempData) => {
     const cardIndex = cards.findIndex(card => card.id === id);
