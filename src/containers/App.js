@@ -1,31 +1,21 @@
-import { useState } from 'react';
-import Cards from '../components/CardList'
-import Cockpit from '../components/Cockpit';
+import React from 'react';
 import Header from '../components/Header';
 import CardContextProvider from '../context/card-context';
+import { Route, Switch } from 'react-router-dom';
+import NotFound from '../components/NotFound';
+import SignIn from '../components/SignIn';
+import Home from '../components/Home';
 
 function App() {
-  const [appState, setAppState] = useState({
-    viewMode: false
-  });
-
-  const viewModeHandler = () => {
-    setAppState({
-      viewMode: !appState.viewMode
-    })
-  };
-
   return (
     <div className="App">
       <CardContextProvider>
         <Header />
-        <Cockpit
-          onChange={viewModeHandler}
-          viewMode={appState.viewMode}
-        />
-        <Cards
-          viewMode={appState.viewMode}
-        />
+        <Switch>
+          <Route path='/' exact component={Home}/>
+          <Route path='/sign-in' component={SignIn}/>
+          <Route component={NotFound}/>
+        </Switch>
       </CardContextProvider>
     </div>
   );
