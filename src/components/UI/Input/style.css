@@ -1,0 +1,30 @@
+.container {
+    margin-top: 25px;
+    margin-bottom: 15px;
+}
+
+.container > input {
+    width: 200px;
+    border: none;
+    padding-left: 5px;
+    border-bottom: 1px solid black;
+    background:  none;
+    outline: none;
+    transition: 0.5s;
+}
+
+.container > input:focus {
+    width: 210px;
+    font-size: 17px;
+}
+
+.warning_container {
+    width: 300px;
+    margin-left: 40px;
+}
+
+.warning {
+    font-size: 14px;
+    color: rgb(212, 105, 105);
+    font-weight: 600;
+}
