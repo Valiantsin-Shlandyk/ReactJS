@@ -1,10 +1,10 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import './style.css';
-import { CardContext } from '../../context/card-context';
 import { Link, withRouter } from 'react-router-dom';
+import { connect } from 'react-redux';
+
 
 const Header = props => {
-    const {counter} = useContext(CardContext);
     return (
         <header>
             <h1 className='header_text'>Header</h1>
@@ -15,10 +15,15 @@ const Header = props => {
             {props.location.pathname === '/' &&
             <div className='counter_box'>
                 <span className='counter_text'>Cards: </span>
-                <span className='counter'>{counter()}</span>
+                <span className='counter'>{props.cards.length}</span>
             </div>}
         </header>
     )
 }
 
-export default withRouter(Header);
+const mapStateToProps = state => {
+  return {
+    cards: state.cards
+  }
+}
+export default connect(mapStateToProps)(withRouter(Header));

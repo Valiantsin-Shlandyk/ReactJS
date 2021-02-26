@@ -17,7 +17,7 @@ const CardContextProvider = props => {
   useEffect(() => {
     axios.get('https://raw.githubusercontent.com/BrunnerLivio/PokemonDataGraber/master/output.json')
          .then(response => {
-           setCards(response.data.slice(0, 15)
+           setCards(response.data.slice(0, 3)
              .map(item => ({
               headerData: item.Name,
               bodyData: item.About,

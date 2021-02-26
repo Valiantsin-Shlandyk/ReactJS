@@ -18,7 +18,7 @@ const SignIn = () => {
                 },
                 valid: false,
                 touched: false,
-                errorMessage: 'You have entered an invalid email adress'
+                errorMessage: 'You have entered an invalid email address'
             },
             password: {
                 elementConfig: {

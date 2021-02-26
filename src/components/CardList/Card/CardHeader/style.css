@@ -50,3 +50,7 @@
     height: 15px;
     cursor: pointer;
 }
+
+.singleCardStylingHeader {
+    width: 90%;
+}

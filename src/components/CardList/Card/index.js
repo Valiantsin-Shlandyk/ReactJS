@@ -1,18 +1,24 @@
-import React, { useState, useEffect, useContext }from 'react';
+import React, { useState, useEffect }from 'react';
 import './style.css';
+
 import { BiEdit } from 'react-icons/bi';
 import { AiOutlineSave } from 'react-icons/ai';
 import { ImCancelCircle } from 'react-icons/im'
+
 import CardHeader from './CardHeader';
 import CardBody from './CardBody';
+
 import withLoadingDelay from '../../../hoc/withLoadingDelay';
 import PropTypes from 'prop-types';
-import { CardContext } from '../../../context/card-context';
+import classNames  from 'classnames';
+
+import { connect } from 'react-redux';
+import * as actionCreators from '../../../store/actions/index';
+import { useHistory } from 'react-router-dom';
 
 const Card = props => {
-  const {onCheck, onSave} = useContext(CardContext);
   const {headerData, bodyData, id} = props.cardData;
-  
+
   const [cardState, setCardState] = useState({
     checked: false,
     isEditable: false,
@@ -26,12 +32,18 @@ const Card = props => {
     }
   });
 
+  const history = useHistory();
+  
+  const doubleClickHandler = () => {
+    history.push(`/card/${id}`);
+  }
+
   const changeStyleHandler = () => {
     setCardState({
       ...cardState,
       checked: !cardState.checked
     });
-    onCheck(id, !cardState.checked);
+    props.onCheck(id, !cardState.checked);
   };
 
   const openEditModeHandler = () => {
@@ -63,7 +75,7 @@ const Card = props => {
         ...cardState.tempData
       }
     });
-    onSave(id, cardState.tempData);
+    props.onSave(id, cardState.tempData);
   };
 
   const cancelChangesHandler = () => {
@@ -95,13 +107,17 @@ const Card = props => {
     return (
       <div className='header-default-buttons'>
         {props.viewMode ? null : <BiEdit className='edit-button' onClick={openEditModeHandler}/>}
-        <input type='checkbox' onChange={changeStyleHandler}/>
+        {!props.singleCard && <input type='checkbox' onChange={changeStyleHandler}/>}
       </div>
     );
   };
 
+  const className = classNames('card', { 'active-status': cardState.checked, 'singleCardStyling': props.singleCard});
+
   return (
-    <div className={cardState.checked ? 'card active-status' : 'card'}>
+    <div className={className} 
+         onDoubleClick={!cardState.isEditable ? doubleClickHandler : null}
+    >
         <CardHeader 
           checked={cardState.checked}
           isEditable={cardState.isEditable}
@@ -109,12 +125,14 @@ const Card = props => {
           onChange={cardDataChangeHandler}
           renderEditMode={renderEditMode}
           renderReadMode={renderReadMode}
+          singleCard={props.singleCard}
         />
         <CardBody 
           checked={cardState.checked}
           bodyData={cardState.tempData.bodyData}
           onChange={cardDataChangeHandler}
           isEditable={cardState.isEditable}
+          singleCard={props.singleCard}
         />
     </div>
   );
@@ -127,4 +145,11 @@ Card.propTypes = {
   viewMode: PropTypes.bool
 }
 
-export default withLoadingDelay(Card);
+const mapDispatchToProps = dispatch => {
+  return {
+    onCheck: (id, checked) => dispatch(actionCreators.toggleCard(id, checked)),
+    onSave: (id, tempData) => dispatch(actionCreators.saveChanges(id, tempData))
+  }
+}
+
+export default connect(null, mapDispatchToProps)(withLoadingDelay(Card));

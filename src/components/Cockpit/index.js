@@ -1,6 +1,7 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import styled from 'styled-components';
-import {CardContext} from '../../context/card-context';
+import { connect } from 'react-redux';
+import * as actionCreators from '../../store/actions/index.js';
 
 const ButtonsLayout = styled.div`
   display: flex;
@@ -101,7 +102,6 @@ const AddButton = styled.button`
 
 
 const Cockpit = props => {
-    const {onDelete, onAdd} = useContext(CardContext);
     return (
       <React.Fragment>
         <ButtonsLayout>
@@ -110,14 +110,21 @@ const Cockpit = props => {
             <StyledInput type='checkbox' id='view_toggle' onChange={props.onChange} />
           </Containter>
           <Containter>
-           <DeleteButton onClick={onDelete}>Delete</DeleteButton>
+           <DeleteButton onClick={props.onDelete}>Delete</DeleteButton>
           </Containter>
           <Containter>
-           <AddButton onClick={onAdd}>Add card</AddButton>
+           <AddButton onClick={props.onAdd}>Add card</AddButton>
           </Containter>
         </ButtonsLayout>
       </React.Fragment>
     );
 };
 
-export default Cockpit;
+const mapDispatchToProps = dispatch => {
+  return {
+    onAdd: () => dispatch(actionCreators.addCard()),
+    onDelete: () => dispatch(actionCreators.deleteCards())
+  }
+}
+
+export default connect(null, mapDispatchToProps)(Cockpit);
