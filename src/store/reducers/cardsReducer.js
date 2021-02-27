@@ -3,7 +3,8 @@ import * as actionTypes from '../actions/actionTypes'
 import { updateObject } from '../utility';
 
 const initialState = {
-    cards: []
+  cards: [],
+  viewMode: false
 }
 
 const saveChangesHandler = (state, action) => {
@@ -38,6 +39,10 @@ const deleteCardsHandler = state => {
   return updateObject(state, {cards: [...updatedCards]})
 };
 
+const viewModeHandler = state => {
+  return updateObject(state, {viewMode: !state.viewMode})
+}
+
 const fetchCardsRequest = (state, action) => {
   return updateObject(state, {cards: action.cards})
 }
@@ -55,6 +60,9 @@ const reducer = (state = initialState, action) => {
 
     case actionTypes.SAVE_CHANGES:
       return saveChangesHandler(state, action);
+    
+    case actionTypes.VIEW_MODE_HANDLER: 
+      return viewModeHandler(state);
     
     case actionTypes.FETCH_CARDS_REQUEST:
       return fetchCardsRequest(state, action); 

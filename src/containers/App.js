@@ -6,15 +6,15 @@ import SignIn from '../components/SignIn';
 import Home from '../components/Home';
 import CardPage from '../components/CardPage';
 
-import { connect } from 'react-redux';
-import { fetchCardsRequest } from '../store/actions/actions';
+import { useDispatch } from 'react-redux';
+import { fetchCardsRequest } from '../store/actions/index';
 
-const App = props => {
-  const {fetchCardsRequest} = props
-
+const App = () => {
+  const dispatch = useDispatch();
+  
   useEffect(() => {
-    fetchCardsRequest();
-  }, [fetchCardsRequest]);
+    dispatch(fetchCardsRequest());
+  }, [dispatch]);
 
   return (
     <div className="App">
@@ -29,10 +29,4 @@ const App = props => {
   );
 }
 
-const mapDispatchToProps = dispatch => {
-  return {
-    fetchCardsRequest: () => dispatch(fetchCardsRequest())
-  }
-}
-
-export default connect(null, mapDispatchToProps)(App);
+export default App;

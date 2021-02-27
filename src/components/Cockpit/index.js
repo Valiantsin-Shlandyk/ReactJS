@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { connect } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import * as actionCreators from '../../store/actions/index.js';
 
 const ButtonsLayout = styled.div`
@@ -101,30 +101,26 @@ const AddButton = styled.button`
 `;
 
 
-const Cockpit = props => {
-    return (
-      <React.Fragment>
-        <ButtonsLayout>
-          <Containter state={props.viewMode}>
-            <StyledLabel htmlFor="view_toggle" >View mode</StyledLabel>
-            <StyledInput type='checkbox' id='view_toggle' onChange={props.onChange} />
-          </Containter>
-          <Containter>
-           <DeleteButton onClick={props.onDelete}>Delete</DeleteButton>
-          </Containter>
-          <Containter>
-           <AddButton onClick={props.onAdd}>Add card</AddButton>
-          </Containter>
-        </ButtonsLayout>
-      </React.Fragment>
-    );
+const Cockpit = () => {
+  const viewMode = useSelector(state => state.viewMode);
+  const dispatch = useDispatch();
+
+  return (
+    <React.Fragment>
+      <ButtonsLayout>
+        <Containter state={viewMode}>
+          <StyledLabel htmlFor="view_toggle" >View mode</StyledLabel>
+          <StyledInput type='checkbox' id='view_toggle' onChange={() => dispatch(actionCreators.viewModeHandler())} checked={viewMode}/>
+        </Containter>
+        <Containter>
+          <DeleteButton onClick={() => dispatch(actionCreators.deleteCards())}>Delete</DeleteButton>
+        </Containter>
+        <Containter>
+          <AddButton onClick={() => dispatch(actionCreators.addCard())}>Add card</AddButton>
+        </Containter>
+      </ButtonsLayout>
+    </React.Fragment>
+  );
 };
 
-const mapDispatchToProps = dispatch => {
-  return {
-    onAdd: () => dispatch(actionCreators.addCard()),
-    onDelete: () => dispatch(actionCreators.deleteCards())
-  }
-}
-
-export default connect(null, mapDispatchToProps)(Cockpit);
+export default Cockpit;

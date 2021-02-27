@@ -3,5 +3,6 @@ export {
     deleteCards,
     toggleCard,
     saveChanges,
+    viewModeHandler,
     fetchCardsRequest
 } from './actions';

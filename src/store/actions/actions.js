@@ -29,6 +29,12 @@ export const saveChanges = (id, tempData) => {
   }
 }
 
+export const viewModeHandler = () => {
+  return {
+    type: actionTypes.VIEW_MODE_HANDLER
+  }
+}
+
 export const saveCards = cards => {
   return {
     type: actionTypes.FETCH_CARDS_REQUEST,

@@ -3,12 +3,15 @@ import Card from '../CardList/Card/index';
 
 import './style.css';
 
-import { connect } from 'react-redux';
+import { useSelector } from 'react-redux';
  
 const CardPage = props => {
-  const card = props.cards.length ? 
-               props.cards.filter(card => card.id === props.match.params.id)[0] : 
-               undefined;
+  const cards = useSelector(state => state.cards);
+
+  const card = cards.length ? 
+        cards.filter(card => card.id === props.match.params.id)[0] : 
+        undefined;
+
   return (
     card ? <Card
               cardData={card} 
@@ -19,11 +22,5 @@ const CardPage = props => {
   )
 }
 
-const mapStateToProps = state => {
-  return {
-      cards: state.cards
-  }
-}
-
-export default connect(mapStateToProps)(CardPage);
+export default CardPage;
 
