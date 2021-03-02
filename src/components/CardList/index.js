@@ -1,17 +1,16 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import Card from '../CardList/Card';
-import { CardContext } from '../../context/card-context';
+import { useSelector } from 'react-redux';
 
-const Cards = props => {
-    const {cards} = useContext(CardContext);
-    
-    return cards.map(card => {
-      return <Card
-                key={card.id}
-                cardData={card}
-                viewMode={props.viewMode}
-              />
-    });
+const Cards = () => {
+  const cards = useSelector(state => state.cards);
+
+  return cards.map(card => {
+    return <Card
+              key={card.id}
+              cardData={card}
+            />
+  });
 }
 
 export default Cards;

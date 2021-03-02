@@ -1,13 +1,18 @@
 import React from 'react';
 import './style.css';
+import classNames  from 'classnames';
 
-const CardBody = props => (
-    <textarea
-      className={props.checked ? 'card-body active' : 'card-body'}
-      value={props.bodyData}
-      readOnly={!props.isEditable}
-      onChange={event => props.onChange('bodyData', event)}
-    />
-)
+const CardBody = props => {
+    const className = classNames('card-body', { 'active': props.checked, 'singleCardStylingBody': props.singleCard});
+
+    return (
+      <textarea
+        className={className}
+        value={props.bodyData}
+        readOnly={!props.isEditable}
+        onChange={event => props.onChange('bodyData', event)}
+     />
+    )
+}
 
 export default CardBody;

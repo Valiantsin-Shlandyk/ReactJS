@@ -22,3 +22,9 @@
     color: #49a9e08e;
     border-bottom: 1px solid #49a9e08e;
 }
+
+.singleCardStyling {
+    height: 360px;
+    margin: 2% 34% 0 34%;
+    width:30%;
+}

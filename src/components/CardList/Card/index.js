@@ -1,18 +1,26 @@
-import React, { useState, useEffect, useContext }from 'react';
+import React, { useState, useEffect }from 'react';
 import './style.css';
+
 import { BiEdit } from 'react-icons/bi';
 import { AiOutlineSave } from 'react-icons/ai';
 import { ImCancelCircle } from 'react-icons/im'
+
 import CardHeader from './CardHeader';
 import CardBody from './CardBody';
+
 import withLoadingDelay from '../../../hoc/withLoadingDelay';
 import PropTypes from 'prop-types';
-import { CardContext } from '../../../context/card-context';
+import classNames  from 'classnames';
+
+import { useSelector, useDispatch } from 'react-redux';
+import * as actionCreators from '../../../store/actions/index';
+import { useHistory } from 'react-router-dom';
 
 const Card = props => {
-  const {onCheck, onSave} = useContext(CardContext);
   const {headerData, bodyData, id} = props.cardData;
-  
+  const viewMode = useSelector(state => state.viewMode);
+  const dispatch = useDispatch();
+
   const [cardState, setCardState] = useState({
     checked: false,
     isEditable: false,
@@ -26,14 +34,20 @@ const Card = props => {
     }
   });
 
+  const history = useHistory();
+  
+  const doubleClickHandler = () => {
+    history.push(`/card/${id}`);
+  }
+
   const changeStyleHandler = () => {
     setCardState({
       ...cardState,
       checked: !cardState.checked
     });
-    onCheck(id, !cardState.checked);
+    dispatch(actionCreators.toggleCard(id, !cardState.checked));
   };
-
+  
   const openEditModeHandler = () => {
     setCardState({
       ...cardState,
@@ -63,7 +77,7 @@ const Card = props => {
         ...cardState.tempData
       }
     });
-    onSave(id, cardState.tempData);
+    dispatch(actionCreators.saveChanges(id, cardState.tempData));
   };
 
   const cancelChangesHandler = () => {
@@ -80,7 +94,7 @@ const Card = props => {
     cardState.isEditable && cancelChangesHandler();
 
   // eslint-disable-next-line
-  }, [props.viewMode]);
+  }, [viewMode]);
 
   const renderEditMode = () => {
     return (
@@ -94,28 +108,35 @@ const Card = props => {
   const renderReadMode = () => {
     return (
       <div className='header-default-buttons'>
-        {props.viewMode ? null : <BiEdit className='edit-button' onClick={openEditModeHandler}/>}
-        <input type='checkbox' onChange={changeStyleHandler}/>
+        {viewMode ? null : <BiEdit className='edit-button' onClick={openEditModeHandler}/>}
+        {!props.singleCard && <input type='checkbox' onChange={changeStyleHandler}/>}
       </div>
     );
   };
 
+  const className = classNames('card', { 'active-status': cardState.checked, 'singleCardStyling': props.singleCard});
+
   return (
-    <div className={cardState.checked ? 'card active-status' : 'card'}>
-        <CardHeader 
-          checked={cardState.checked}
-          isEditable={cardState.isEditable}
-          headerData={cardState.tempData.headerData}
-          onChange={cardDataChangeHandler}
-          renderEditMode={renderEditMode}
-          renderReadMode={renderReadMode}
-        />
-        <CardBody 
-          checked={cardState.checked}
-          bodyData={cardState.tempData.bodyData}
-          onChange={cardDataChangeHandler}
-          isEditable={cardState.isEditable}
-        />
+    <div 
+      className={className} 
+      onDoubleClick={!cardState.isEditable && doubleClickHandler}
+    >
+      <CardHeader 
+        checked={cardState.checked}
+        isEditable={cardState.isEditable}
+        headerData={cardState.tempData.headerData}
+        onChange={cardDataChangeHandler}
+        renderEditMode={renderEditMode}
+        renderReadMode={renderReadMode}
+        singleCard={props.singleCard}
+      />
+      <CardBody 
+        checked={cardState.checked}
+        bodyData={cardState.tempData.bodyData}
+        onChange={cardDataChangeHandler}
+        isEditable={cardState.isEditable}
+        singleCard={props.singleCard}
+      />
     </div>
   );
 };
