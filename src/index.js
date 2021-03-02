@@ -12,7 +12,16 @@ import thunk from 'redux-thunk'
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
-const store = createStore(reducer, composeEnhancers(applyMiddleware(thunk)));
+const logger = () => {
+  return next => {
+    return action => {
+      console.log('[Middleware] Dispatching: ', action);
+      return next(action);
+    }
+  }
+}
+
+const store = createStore(reducer, composeEnhancers(applyMiddleware(thunk, logger)));
 
 ReactDOM.render(
     <Provider store={store}>

@@ -36,9 +36,7 @@ const Card = props => {
 
   const history = useHistory();
   
-  const doubleClickHandler = () => {
-    history.push(`/card/${id}`);
-  }
+  const doubleClickHandler = () => history.push(`/card/${id}`);
 
   const changeStyleHandler = () => {
     setCardState({
@@ -115,11 +113,10 @@ const Card = props => {
   };
 
   const className = classNames('card', { 'active-status': cardState.checked, 'singleCardStyling': props.singleCard});
-
   return (
     <div 
-      className={className} 
-      onDoubleClick={!cardState.isEditable && doubleClickHandler}
+      className={className}
+      onDoubleClick={!cardState.isEditable ? doubleClickHandler : undefined}
     >
       <CardHeader 
         checked={cardState.checked}
