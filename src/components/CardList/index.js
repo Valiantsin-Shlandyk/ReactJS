@@ -3,7 +3,7 @@ import Card from '../CardList/Card';
 import { useSelector } from 'react-redux';
 
 const Cards = () => {
-  const cards = useSelector(state => state.cards);
+  const cards = useSelector(state => state.cardsReducer.cards);
 
   return cards.map(card => {
     return <Card

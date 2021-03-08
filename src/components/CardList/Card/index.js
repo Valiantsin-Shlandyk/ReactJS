@@ -18,7 +18,7 @@ import { useHistory } from 'react-router-dom';
 
 const Card = props => {
   const {headerData, bodyData, id} = props.cardData;
-  const viewMode = useSelector(state => state.viewMode);
+  const viewMode = useSelector(state => state.cardsReducer.viewMode);
   const dispatch = useDispatch();
 
   const [cardState, setCardState] = useState({

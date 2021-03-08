@@ -6,7 +6,7 @@ import './style.css';
 import { useSelector } from 'react-redux';
  
 const CardPage = props => {
-  const cards = useSelector(state => state.cards);
+  const cards = useSelector(state => state.cardsReducer.cards);
 
   const card = cards.length ? 
         cards.filter(card => card.id === props.match.params.id)[0] : 
