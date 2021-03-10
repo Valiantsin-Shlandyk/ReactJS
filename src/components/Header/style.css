@@ -22,13 +22,25 @@ header {
     display: flex;
     align-items: center;
     position: absolute;
-    right: 250px;
+    left: 25px;
     cursor: default;
 }
 
 .counter_text {
     color: #fff;
     margin-left: 5px;
+}
+
+.greeting {
+  font-weight: 600;
+  color: #3e08ff;
+  margin-right: 10px;
+  display: inline-block;
+}
+
+.greeting_user_name {
+  color: rgb(46, 156, 88);
+  text-decoration: underline;
 }
 
 .links {
@@ -42,7 +54,7 @@ header {
     font-weight: 600;
 }
 
-.sign_in {
+.sign_in, .sign_out, .settings {
     text-decoration: none;
     font-weight: 600;
     margin-left: 10px;

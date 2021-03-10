@@ -3,7 +3,14 @@ import './style.css';
 import { BiUserCircle } from 'react-icons/bi';
 import Input from '../../components/UI/Input';
 
+import { useDispatch } from 'react-redux';
+import { signIn } from '../../store/reducers/authReducer';
+import { useHistory } from 'react-router-dom';
+
 const SignIn = () => {
+    const dispatch = useDispatch();
+    const history = useHistory();
+
     const [signInState, setSignInSate] = useState({
         formElements: {
             username: {
@@ -87,9 +94,19 @@ const SignIn = () => {
       });
     }
 
+    const submitHandler = event => {
+      event.preventDefault();
+      const formData = {
+        login: signInState.formElements.username.value, 
+        password: signInState.formElements.password.value
+      }
+      dispatch(signIn(formData));
+      history.push('/');
+    };
+
     return (
         <div className='container'>
-            <form className='form'>
+            <form className='form' onSubmit={submitHandler}>
                 <BiUserCircle className='user_icon'/>
                 <label className='iconText'>Sign in</label>
                 {formElementsArray.map(element => {
@@ -110,4 +127,4 @@ const SignIn = () => {
     )
 }
 
-export default SignIn
+export default SignIn;
