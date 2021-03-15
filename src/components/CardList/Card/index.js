@@ -1,9 +1,5 @@
-import React, { useState, useEffect }from 'react';
+import React, { useState }from 'react';
 import './style.css';
-
-import { BiEdit } from 'react-icons/bi';
-import { AiOutlineSave } from 'react-icons/ai';
-import { ImCancelCircle } from 'react-icons/im'
 
 import CardHeader from './CardHeader';
 import CardBody from './CardBody';
@@ -12,13 +8,12 @@ import withLoadingDelay from '../../../hoc/withLoadingDelay';
 import PropTypes from 'prop-types';
 import classNames  from 'classnames';
 
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import * as actionCreators from '../../../store/actions/index';
 import { useHistory } from 'react-router-dom';
 
-const Card = props => {
+export const Card = props => {
   const {headerData, bodyData, id} = props.cardData;
-  const viewMode = useSelector(state => state.cardsReducer.viewMode);
   const dispatch = useDispatch();
 
   const [cardState, setCardState] = useState({
@@ -88,31 +83,8 @@ const Card = props => {
     });
   };
 
-  useEffect(() => {
-    cardState.isEditable && cancelChangesHandler();
-
-  // eslint-disable-next-line
-  }, [viewMode]);
-
-  const renderEditMode = () => {
-    return (
-      <div className='header-edit-mode-buttons'>
-        <AiOutlineSave className='save-button' onClick={saveChangesHandler}/>
-        <ImCancelCircle className='cancel-button' onClick={cancelChangesHandler}/>
-      </div>
-    );
-  };
-
-  const renderReadMode = () => {
-    return (
-      <div className='header-default-buttons'>
-        {viewMode ? null : <BiEdit className='edit-button' onClick={openEditModeHandler}/>}
-        {!props.singleCard && <input type='checkbox' onChange={changeStyleHandler}/>}
-      </div>
-    );
-  };
-
   const className = classNames('card', { 'active-status': cardState.checked, 'singleCardStyling': props.singleCard});
+
   return (
     <div 
       className={className}
@@ -122,15 +94,18 @@ const Card = props => {
         checked={cardState.checked}
         isEditable={cardState.isEditable}
         headerData={cardState.tempData.headerData}
-        onChange={cardDataChangeHandler}
-        renderEditMode={renderEditMode}
-        renderReadMode={renderReadMode}
+        onChange={event => cardDataChangeHandler('headerData', event)}
         singleCard={props.singleCard}
+        onSave={saveChangesHandler}
+        onCancel={cancelChangesHandler}
+        onOpenEditMode={openEditModeHandler}
+        onChangeStyle={changeStyleHandler}
+        viewMode={props.viewMode}
       />
       <CardBody 
         checked={cardState.checked}
         bodyData={cardState.tempData.bodyData}
-        onChange={cardDataChangeHandler}
+        onChange={event => cardDataChangeHandler('bodyData', event)}
         isEditable={cardState.isEditable}
         singleCard={props.singleCard}
       />
