@@ -10,7 +10,7 @@ const CardBody = props => {
         className={className}
         value={props.bodyData}
         readOnly={!props.isEditable}
-        onChange={event => props.onChange('bodyData', event)}
+        onChange={props.onChange}
      />
     )
 }
